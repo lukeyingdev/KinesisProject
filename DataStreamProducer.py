@@ -18,19 +18,36 @@ def random_ip():
 #     Limit=123
 # )
 # print(stream_description)
-sleep_seconds = int(input("enter sleep time (integer): "))
-for x in range(5):
-	ip = random_ip()
-	event = str(random_event())
-	data = '{"ip": '+ip+', "event": '+event+'}'
-	print(data)
-	response = client.put_record(
-	    StreamName='test-bot',
-	    Data=data,
-	    PartitionKey=str(x)
-	)
-	print(response)
-	sleep(sleep_seconds)
+def generate_events(events,interval):
+	for x in range(events):
+		ip = random_ip()
+		event = str(random_event())
+		data = '{"ip": '+ip+', "event": '+event+'}'
+		print(data)
+		response = client.put_record(
+		    StreamName='test-bot',
+		    Data=data,
+		    PartitionKey=str(x)
+		)
+		return(response)
+		sleep(interval)
+
+num_events = int(input("enter # of events (integer): "))
+sleep_seconds = int(input("enter sleep time in seconds (integer): "))
+print(generate_events(num_events, sleep_seconds))
+
+# for x in range(5):
+# 	ip = random_ip()
+# 	event = str(random_event())
+# 	data = '{"ip": '+ip+', "event": '+event+'}'
+# 	print(data)
+# 	response = client.put_record(
+# 	    StreamName='test-bot',
+# 	    Data=data,
+# 	    PartitionKey=str(x)
+# 	)
+# 	print(response)
+# 	sleep(sleep_seconds)
 	
 
 # # for ip in ip_addresses:
